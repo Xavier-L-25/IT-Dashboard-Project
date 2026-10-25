@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer components {
+  .card {
+    @apply border rounded-2xl bg-stone-200/40 shadow-xl/50;
+  }
+
+  .card-light {
+    @apply border rounded-2xl bg-stone-200/40 shadow-xl/25;
+  }
+}
