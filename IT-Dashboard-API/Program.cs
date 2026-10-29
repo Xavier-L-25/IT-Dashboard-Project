@@ -3,6 +3,20 @@ using IT_Dashboard_API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS policy
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()
+                     ?? throw new InvalidOperationException("CORS origins 'AllowedOrigins' not configured in appsettings.");
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ITDashboardFrontend", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -27,6 +41,9 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while migrating the database.");
     }
 }
+
+// Use CORS (must come before UseAuthorization)
+app.UseCors("ITDashboardFrontend");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

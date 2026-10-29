@@ -15,7 +15,6 @@ namespace IT_Dashboard_API.Data
         public DbSet<IT_Dashboard_API.Models.TicketNoteModel> TicketNoteModel { get; set; } = default!;
 
         // Override SaveChangesAsync to automatically set CreatedAt and UpdatedAt timestamps
-        
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries<IAuditableEntity>();
@@ -34,6 +33,5 @@ namespace IT_Dashboard_API.Data
 
             return base.SaveChangesAsync(cancellationToken);
         }
-        
     }
 }
